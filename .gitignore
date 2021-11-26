@@ -4,6 +4,7 @@ __pycache__/
 *.h5
 .ipynb_checkpoints
 *.
-dataset/
+#dataset/
 test_nb
-Icon
+Icon
+
