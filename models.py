@@ -13,13 +13,14 @@ from utils import load_weights, get_detection_data, draw_bbox, voc_ap, draw_plot
 from config import yolo_config
 from loss import yolo_loss
 
-
 class Yolov4(object):
     def __init__(self,
                  weight_path=None,
                  class_name_path='coco_classes.txt',
                  config=yolo_config,
                  ):
+        print("Yolov4")
+        print(config['img_size'])
         assert config['img_size'][0] == config['img_size'][1], 'not support yet'
         assert config['img_size'][0] % config['strides'][-1] == 0, 'must be a multiple of last stride'
         self.class_names = [line.strip() for line in open(class_name_path).readlines()]
@@ -46,6 +47,7 @@ class Yolov4(object):
             self.build_model(load_pretrained=True if self.weight_path else False)
 
     def build_model(self, load_pretrained=True):
+        print("Build model")
         # core yolo model
         input_layer = layers.Input(self.img_size)
         yolov4_output = yolov4_neck(input_layer, self.num_classes)
@@ -64,6 +66,8 @@ class Yolov4(object):
                                                       'anchors': self.anchors})([*self.yolo_model.output, *y_true])
         self.training_model = models.Model([self.yolo_model.input, *y_true], loss_list)
 
+        self.training_model.summary()
+
         # Build inference model
         yolov4_output = yolov4_head(yolov4_output, self.num_classes, self.anchors, self.xyscale)
         # output: [boxes, scores, classes, valid_detections]
@@ -80,7 +84,7 @@ class Yolov4(object):
                 self.training_model.load_weights(self.weight_path)
                 print(f'load from {self.weight_path}')
 
-        self.training_model.compile(optimizer=optimizers.Adam(lr=1e-3),
+        self.training_model.compile(optimizer=optimizers.Adam(learning_rate=1e-3),
                                     loss={'yolo_loss': lambda y_true, y_pred: y_pred})
 
     def load_model(self, path):
@@ -527,4 +531,3 @@ class Yolov4(object):
                                         class_names=self.class_names)
         draw_bbox(raw_img, detections, cmap=self.class_color, random_color=True)
         return detections
-
