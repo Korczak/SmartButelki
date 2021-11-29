@@ -2,9 +2,9 @@ import xml.etree.ElementTree as ET
 import os
 from glob import glob
 
-XML_PATH = './dataset/xml'
-CLASSES_PATH = './class_names/classes.txt'
-TXT_PATH = './dataset/txt/anno.txt'
+XML_PATH = './dataset/train_annotations_voc/'
+CLASSES_PATH = './class_names/butelka_classes.txt'
+TXT_PATH = './dataset/train_annotations/butelka.txt'
 
 
 '''loads the classes'''
@@ -15,6 +15,22 @@ def get_classes(classes_path):
     return class_names
 
 
+def get_files(dirName):
+    # create a list of file and sub directories 
+    # names in the given directory 
+    listOfFile = os.listdir(dirName)
+    # Iterate over all the entries
+    for entry in listOfFile:
+        # Create full path
+        fullPath = os.path.join(dirName, entry)
+        # If entry is a directory then get the list of files in this directory 
+        if os.path.isdir(fullPath):
+            yield from get_files(fullPath)
+        else:
+            yield fullPath
+                
+
+
 classes = get_classes(CLASSES_PATH)
 assert len(classes) > 0, 'no class names detected!'
 print(f'num classes: {len(classes)}')
@@ -22,7 +38,7 @@ print(f'num classes: {len(classes)}')
 # output file
 list_file = open(TXT_PATH, 'w')
 
-for path in glob(os.path.join(XML_PATH, '*.xml')):
+for path in get_files(XML_PATH):
     in_file = open(path)
 
     # Parse .xml file
