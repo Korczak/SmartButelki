@@ -3,6 +3,7 @@ import os
 from glob import glob
 
 XML_PATH = './dataset/train_annotations_voc/'
+XML_BASE_DIR = 'train_annotations_voc/'
 CLASSES_PATH = './class_names/butelka_classes.txt'
 TXT_PATH = './dataset/train_annotations/butelka.txt'
 
@@ -40,14 +41,15 @@ list_file = open(TXT_PATH, 'w')
 
 for path in get_files(XML_PATH):
     in_file = open(path)
-
+    fullpath_to_file = path.split(XML_BASE_DIR)[1]
+    print(fullpath_to_file)
     # Parse .xml file
     tree = ET.parse(in_file)
     root = tree.getroot()
     # Write object information to .txt file
     file_name = root.find('filename').text
     print(file_name)
-    list_file.write(file_name)
+    list_file.write(fullpath_to_file)
     for obj in root.iter('object'):
         cls = obj.find('name').text 
         cls_id = classes.index(cls)
