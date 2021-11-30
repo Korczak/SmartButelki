@@ -1,0 +1,26 @@
+<annotation>
+  <folder>input</folder>
+  <filename>IMG_0997.JPG</filename>
+  <path>C:\Users\kinga\Downloads\OpenLabeling-master\OpenLabeling-master\main\input\IMG_0997.JPG</path>
+  <source>
+    <database>Unknown</database>
+  </source>
+  <size>
+    <width>216</width>
+    <height>384</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>butelka</name>
+    <pose>Unspecified</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>87</xmin>
+      <ymin>71</ymin>
+      <xmax>124</xmax>
+      <ymax>256</ymax>
+    </bndbox>
+  </object>
+</annotation>
