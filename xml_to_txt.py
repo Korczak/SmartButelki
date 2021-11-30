@@ -49,7 +49,7 @@ for path in get_files(XML_PATH):
     # Write object information to .txt file
     file_name = root.find('filename').text
     print(file_name)
-    list_file.write(fullpath_to_file)
+    list_file.write(fullpath_to_file.replace("\\", "/").replace('.xml', '.JPG'))
     for obj in root.iter('object'):
         cls = obj.find('name').text 
         cls_id = classes.index(cls)
