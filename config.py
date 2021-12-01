@@ -7,7 +7,7 @@ yolo_config = {
 
     # Training
     'iou_loss_thresh': 0.5,
-    'batch_size': 1,
+    'batch_size': 4,
     'num_gpu': 1,  # 2,
 
     # Inference
@@ -15,3 +15,6 @@ yolo_config = {
     'iou_threshold': 0.413,
     'score_threshold': 0.3,
 }
+
+
+
